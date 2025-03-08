@@ -21,11 +21,14 @@ jobs:
 
       - name: 🏗️ Instalar dependencias del sistema
         run: |
-          sudo apt update
-          sudo apt install -y libwebkit2gtk-4.0-dev \
-                              libgtk-3-dev \
-                              libayatana-appindicator3-dev \
-                              librsvg2-dev
+          sudo apt clean
+          sudo rm -rf /var/lib/apt/lists/*
+          sudo apt update && sudo apt upgrade -y
+          sudo apt install -y \
+            libwebkit2gtk-4.0-dev \
+            libgtk-3-dev \
+            libayatana-appindicator3-dev \
+            librsvg2-dev || (sudo apt --fix-broken install -y && exit 1)
 
       - name: 🚀 Instalar pnpm y Node.js
         uses: pnpm/action-setup@v3
